@@ -1,0 +1,116 @@
+<modification>
+    
+    <id><![CDATA[hide-registration-fields-for-oc2-module]]></id>
+    <version><![CDATA[2.3.6]]></version>
+    <author><![CDATA[dev@smshare.fr - https://www.prowebtec.com]]></author>
+    <vqmver><![CDATA[2.5.1]]></vqmver>
+    
+    
+    
+    
+    
+    
+    <file name="catalog/controller/account/register.php">
+        <operation>
+            <search position="after"><![CDATA[$data['header'] = $this->load->controller('common/header');]]></search>
+            <add><![CDATA[
+            
+                $this->load->model('module/hide_registration_fields');
+                $my_data = $this->model_module_hide_registration_fields->get_my_data();
+                $data = array_merge($data, $my_data);
+
+                if(version_compare(VERSION, '2.2.0.0', 'ge')) {
+                    $this->response->setOutput($this->load->view('account/register_hidereg', $data));
+                }else{
+                    if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/register_hidereg.tpl')) {
+                        $this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/account/register_hidereg.tpl', $data));
+                    } else {
+                        $this->response->setOutput($this->load->view('default/template/account/register_hidereg.tpl', $data));
+                    }
+                }
+                
+                return;
+            ]]></add>
+        </operation>
+    </file>
+
+
+    <file name="catalog/controller/account/edit.php">
+        <operation>
+            <search position="after"><![CDATA[$data['header'] = $this->load->controller('common/header');]]></search>
+            <add><![CDATA[
+            
+                $this->load->model('module/hide_registration_fields');
+                $my_data = $this->model_module_hide_registration_fields->get_my_data();
+                $data = array_merge($data, $my_data);
+
+                if(version_compare(VERSION, '2.2.0.0', 'ge')) {
+                    $this->response->setOutput($this->load->view('account/edit_hidereg', $data));
+                }else{
+                    if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/edit_hidereg.tpl')) {
+                        $this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/account/edit_hidereg.tpl', $data));
+                    } else {
+                        $this->response->setOutput($this->load->view('default/template/account/edit_hidereg.tpl', $data));
+                    }
+                }
+                
+                return;
+            ]]></add>
+        </operation>
+    </file>
+    
+    
+    <!-- ===============
+    register at checkout
+    ================ -->
+    <file name="catalog/controller/checkout/register.php">
+        <operation>
+            <search position="after"><![CDATA[$data['shipping_required'] = $this->cart->hasShipping();]]></search>
+            <add><![CDATA[
+                $this->load->model('module/hide_registration_fields');
+                $my_data = $this->model_module_hide_registration_fields->get_my_data();
+                $data = array_merge($data, $my_data);
+
+                if(version_compare(VERSION, '2.2.0.0', 'ge')) {
+                    $this->response->setOutput($this->load->view('checkout/register_hidereg', $data));
+                }else{
+                    if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/register_hidereg.tpl')) {
+                        $this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/checkout/register_hidereg.tpl', $data));
+                    } else {
+                        $this->response->setOutput($this->load->view('default/template/checkout/register_hidereg.tpl', $data));
+                    }
+                }
+                
+                return;
+            ]]></add>
+        </operation>
+    </file>
+    
+    
+    <!-- =====================
+    Guest register at checkout
+    ====================== -->
+    <file name="catalog/controller/checkout/guest.php">
+        <operation>
+            <search position="after" offset="1"><![CDATA[$data['captcha'] = '';]]></search>
+            <add><![CDATA[
+                $this->load->model('module/hide_registration_fields');
+                $my_data = $this->model_module_hide_registration_fields->get_my_data();
+                $data = array_merge($data, $my_data);
+
+                if(version_compare(VERSION, '2.2.0.0', 'ge')) {
+                    $this->response->setOutput($this->load->view('checkout/guest_hidereg', $data));
+                }else{
+                    if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/guest_hidereg.tpl')) {
+                        $this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/checkout/guest_hidereg.tpl', $data));
+                    } else {
+                        $this->response->setOutput($this->load->view('default/template/checkout/guest_hidereg.tpl', $data));
+                    }
+                }
+                
+                return;
+            ]]></add>
+        </operation>
+    </file>
+    
+</modification>
